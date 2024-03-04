@@ -3,11 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button class="user-button" defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
-    <ion-buttons class="ion-padding-end" slot="end" (click)="deleteMovie()">
+    <ion-buttons class="ion-padding-end" slot="end" (click)="onDeleteMovie()">
       <ion-icon name="trash-outline"></ion-icon>
     </ion-buttons>
 
-    <ion-buttons slot="end" class="ion-padding-end" (click)="editMovie()">
+    <ion-buttons slot="end" class="ion-padding-end" (click)="onEditMovie()">
       <ion-icon name="pencil-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
@@ -33,7 +33,11 @@
     </ion-card>
     } @else {
     <ion-card class="ion-card-container">
-        <ion-card-title class="ion-card-container-title">{{ movie.original_title }}</ion-card-title>
+        <ion-card-title class="ion-card-container-title">
+          <ion-item>
+            <ion-input [(ngModel)]="titleMovie" [readonly]="!editMovie"  fill="{{editMovie ? 'outline' : ''}}"></ion-input>
+          </ion-item>
+        </ion-card-title>
         <ion-item>
           <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="Silhouette of mountains" />
         </ion-item>
@@ -55,7 +59,7 @@
         </ion-card-header>
 
         <ion-card-content class="ion-card-container-description">
-          {{ movie.overview }}
+          <ion-textarea [autoGrow]="true" [(ngModel)]="overviewMovie" [readonly]="!editMovie"  fill="{{editMovie ? 'outline' : ''}}"></ion-textarea>
         </ion-card-content>
     </ion-card>
     }

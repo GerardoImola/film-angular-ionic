@@ -26,7 +26,10 @@ export class HomePage implements OnInit {
   }
 
   async fetchMovies(): Promise<void> {
-    this.movies = await this.movieService.getMovieList()
+    await this.movieService.getMovieList()
+    this.movieService.movies$.subscribe((data) => {
+      this.movies = data;
+    });
     this.loadingMovies = false;
   }
 
