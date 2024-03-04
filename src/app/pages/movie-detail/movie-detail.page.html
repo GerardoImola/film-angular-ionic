@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="user-button" defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons class="ion-padding-end" slot="end" (click)="deleteMovie()">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-buttons>
+    <ion-buttons slot="end" class="ion-padding-end" (click)="editMovie()">
+      <ion-icon name="pencil-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="home-container">
+    @if(loadingData) {
+    <ion-card>
+      <ion-item>
+        <ion-skeleton-text [animated]="true" style="height: 600px"></ion-skeleton-text>
+      </ion-item>
+
+      <ion-card-header>
+        <ion-item>
+          <ion-skeleton-text [animated]="true" style="width: 60px; height: 40px"></ion-skeleton-text>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-skeleton-text [animated]="true" style="height: 120px"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+    } @else {
+    <ion-card>
+        <ion-card-title>{{ movie.original_title }}</ion-card-title>
+        <ion-item>
+          <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="Silhouette of mountains" />
+        </ion-item>
+
+        <ion-card-header>
+            <ion-row>
+             <ion-col size="6" class="ion-text-start">
+                <ion-label class="ion-padding-bottom">Rate</ion-label>
+                <div>
+                  <ion-icon [name]="getStarIcon(index, movie.vote_average)" class="star-icon" *ngFor="let index of starIndexes"></ion-icon>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <ion-text class="ion-text-end">
+                  <p>{{ movie.release_date }}</p>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+        </ion-card-header>
+
+        <ion-card-content>
+          {{ movie.overview }}
+        </ion-card-content>
+    </ion-card>
+    }
+  </div>
+</ion-content>
