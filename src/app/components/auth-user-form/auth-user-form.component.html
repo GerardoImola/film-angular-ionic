@@ -1,0 +1,16 @@
+<form [formGroup]="loginForm" (ngSubmit)="onClickSubmitForm()" class="auth-form-container">
+  <ion-item class="auth-form-container-item">
+    <ion-input placeholder="Username" formControlName="username" type="text" fill="outline"></ion-input>
+  </ion-item>
+
+  <ion-item class="auth-form-container-item">
+    <ion-input placeholder="Password" formControlName="password" type="{{showPassword ? 'text' : 'password'}}" fill="outline">
+      <ion-icon name="eye-off-outline" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+    </ion-input>
+  </ion-item>
+
+
+  <ion-button class="auth-form-container-button" color="medium" type="submit" expand="block" shape="round" [disabled]="loginForm.invalid">
+    <span class="user-button">{{buttonText}}</span>
+  </ion-button>
+</form>
