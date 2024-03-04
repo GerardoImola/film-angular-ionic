@@ -1,4 +1,27 @@
+.ion-card-container {
+  background-color: black;
+
+  &-title {
+    margin-bottom: 6%;
+  }
+
+  &-description {
+    text-align: center;
+  }
+}
+
 .star-icon {
   color: #f8d32d;
   font-size: 24px;
 }
+
+.user-button {
+  color: white;
+}
+
+.edit-container {
+  border-radius: 20px;
+  outline: auto;
+}
+
+

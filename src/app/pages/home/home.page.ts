@@ -54,8 +54,7 @@ export class HomePage implements OnInit {
   }
 
   openSearch() {
-    this.showSearchBar = true;
-    console.log('Abrir campo de búsqueda...');
+    this.showSearchBar = !this.showSearchBar;
   }
 
   toggleSearch() {
@@ -64,5 +63,9 @@ export class HomePage implements OnInit {
 
   onClearSearch() {
     this.showSearchBar = false;
+  }
+
+  onBackToLogin(): void {
+    this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
   }
 }

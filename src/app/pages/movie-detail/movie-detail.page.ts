@@ -19,18 +19,10 @@ export class MovieDetailPage implements OnInit {
   private route = inject(ActivatedRoute)
   private movieService = inject(MovieService)
 
-  currentRating: number = 0;
-  currentDate: Date;
   movie!: MovieDetailDbResponse;
   loadingData: boolean = true;
 
-  constructor() {
-    this.currentDate = new Date();
-  }
-  rate(rating: number) {
-    console.log('Rated:', rating);
-    this.currentRating = rating;
-  }
+
   stars: number[] = Array(5).fill(0);
 
   resultMovieDetail: Array<MovieDbResponseResult> = []
@@ -44,9 +36,6 @@ export class MovieDetailPage implements OnInit {
     async fetchMovieById(id: number): Promise<void> {
       this.movie = await this.movieService.getMovieById(id)
       this.loadingData = false;
-
-      console.log('resultMovieDetail', this.movie)
-
     }
 
   getStarIcon(index: number, ratingPercentage: number): string {
@@ -71,4 +60,5 @@ export class MovieDetailPage implements OnInit {
   deleteMovie()  {
     console.log('eliminar')
   }
+
 }
