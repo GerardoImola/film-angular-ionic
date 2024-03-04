@@ -1,0 +1,95 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu Content</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">This is the menu content.</ion-content>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button class="icon-content"></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+  </div>
+    <ion-buttons slot="end">
+      <ion-button (click)="openSearch()">
+        <ion-icon class="icon-content" slot="icon-only" name="search-outline"></ion-icon>
+        <ion-searchbar *ngIf="showSearchBar" (ionCancel)="toggleSearch()" (ionClear)="onClearSearch()" animated="true"></ion-searchbar>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Movies
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="home-container">
+    @if(loadingMovies) {
+    <ion-card *ngFor="let _ of [0, 1, 2, 3]">
+      <ion-card-content class="card-container-content">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="6" class="card-container-content-columns ion-padding">
+            <ion-skeleton-text [animated]="true" style="margin: 20px; width: 150px; height: 140px"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="6" class="card-container-content-columns ion-margin-top">
+            <ion-label>
+              <ion-skeleton-text [animated]="true" style="height: 90px"></ion-skeleton-text>
+            </ion-label>
+
+            <ion-label class="ion-padding-start ion-padding-top card-container-content-columns-rate">Rate</ion-label>
+            <div class="ion-padding-start">
+                    <ion-icon [name]="getStarIcon(index,0)" class="star-icon" *ngFor="let index of starIndexes"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>} @else {
+    <ion-card class="card-container" *ngFor="let movie of movies">
+      <ion-list>
+        <ion-item-sliding>
+          <ion-item>
+              <ion-card-content class="card-container-content">
+                <ion-row class="ion-justify-content-between">
+                  <ion-col size="6" class="card-container-content-columns">
+                    <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.original_title}}" />
+                  </ion-col>
+                  <ion-col size="6" class="card-container-content-columns ion-margin-top">
+                    <h1>{{ movie.original_title
+                      }}</h1>
+
+                    <ion-label>
+                      <div class="card-container-content-columns-description ion-padding-horizontal" >
+                      {{ movie.overview }}
+                      </div>
+                    </ion-label>
+
+                    <ion-label class="ion-padding-start ion-padding-top card-container-content-columns-rate">Rate</ion-label>
+                    <div class="ion-padding-start">
+                      <ion-icon [name]="getStarIcon(index,movie.vote_average)" class="star-icon" *ngFor="let index of starIndexes"></ion-icon>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-button color="success" (click)="editMovie(movie.id)">Edit</ion-button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-card>}
+
+  </div>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

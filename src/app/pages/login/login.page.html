@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+
+  <ion-card class="ion-card-container">
+    <ion-card-header>
+
+    </ion-card-header>
+
+    <div class="ion-card-container-avatar-container">
+      <ion-avatar class="ion-card-container-avatar-container-user-avatar">
+        <img alt="Silhouette of a person's head" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Nx7hMLhYEBqLNwn5HbI5ToqHvMsaJkHNyPFunSbAdJMMOTzSguc2YIG_kS4Cc8-MuI8&usqp=CAU" />
+      </ion-avatar>
+    </div>
+
+    <ion-card-content class="card-container">
+        <app-auth-user-form [buttonText]="'Login'" (submitAuth)="onLoginForm($event)" />
+        <ion-button class="user-button" fill="clear" (click)="create()">Create account</ion-button>
+
+        <ion-button class="user-button-forgot" fill="clear" (click)="forgot()">Forgot password?</ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-toast
+    [isOpen]="showToast"
+    position="top"
+    positionAnchor="footer"
+    message="Something are wrong!"
+    cssClass="custom-toast-login"
+    duration="2000"
+  ></ion-toast>
+</ion-content>
