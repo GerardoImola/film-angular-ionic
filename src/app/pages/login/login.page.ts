@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ROUTE_HOME_ABSOLUTE, ROUTE_CREATE_ABSOLUTE, ROUTE_FORGOT_ABSOLUTE} from "../../shared/routing-paths";
 import {AuthUserFormComponent} from "../../components/auth-user-form/auth-user-form.component";
 import {UserI} from "../../interfaces/auth/user.interface";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import {UserI} from "../../interfaces/auth/user.interface";
 export class LoginPage implements OnInit {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router)
+  private authService = inject(AuthService)
   username = '';
   password = '';
   loginForm!: FormGroup
@@ -30,15 +32,17 @@ export class LoginPage implements OnInit {
     });
   }
 
-  onLoginForm(user: UserI) {
-    console.log('HERE , GO!', user)
-    this.router.navigate([ROUTE_HOME_ABSOLUTE]);
-    // this.showToast = true
+  async onLoginForm(user: UserI) {
+    try {
+      await this.authService.login(user);
+      this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+    } catch (error: any) {
+        console.log(error.message);
+    }
   }
 
   create() {
     this.router.navigate([ROUTE_CREATE_ABSOLUTE]);
-
   }
 
   forgot() {

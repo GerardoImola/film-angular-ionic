@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ROUTE_EDIT_ABSOLUTE, ROUTE_LOGIN_ABSOLUTE} from "../../shared/routing-paths";
 import {MovieService} from "../../services/movie.service";
 import {MovieDbResponseResult} from "../../interfaces/movie/movie.interface";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ import {MovieDbResponseResult} from "../../interfaces/movie/movie.interface";
 export class HomePage implements OnInit {
   private movieService = inject(MovieService)
   private router = inject(Router)
+  private authService = inject(AuthService);
   stars: number[] = Array(5).fill(0);
   movies: Array<MovieDbResponseResult> = []
   showSearchBar: boolean = false;
@@ -53,7 +55,12 @@ export class HomePage implements OnInit {
   }
 
   onLogout(): void {
-    this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
+    try {
+      this.authService.signOut()
+      this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   openSearch() {
@@ -66,9 +73,5 @@ export class HomePage implements OnInit {
 
   onClearSearch() {
     this.showSearchBar = false;
-  }
-
-  onBackToLogin(): void {
-    this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
   }
 }

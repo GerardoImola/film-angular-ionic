@@ -25,8 +25,8 @@ export class MovieDetailPage implements OnInit, OnDestroy {
   movie!: MovieDetailDbResponse;
   loadingData: boolean = true;
   editMovie: boolean = false;
-  titleMovie: string = ''
-  overviewMovie: string = ''
+  titleMovie: string = '';
+  overviewMovie: string = '';
   stars: number[] = Array(5).fill(0);
 
   resultMovieDetail: Array<MovieDbResponseResult> = []

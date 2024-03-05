@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ROUTE_HOME_ABSOLUTE, ROUTE_LOGIN_ABSOLUTE} from "../../shared/routing-paths";
 import {UserI} from "../../interfaces/auth/user.interface";
 import {AuthUserFormComponent} from "../../components/auth-user-form/auth-user-form.component";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-create-account',
@@ -21,8 +22,10 @@ export class CreateAccountPage implements OnInit {
   loginForm!: FormGroup
   private formBuilder = inject(FormBuilder);
   private router = inject(Router)
+  private authService = inject(AuthService)
   showPassword: boolean = false;
   showToast: boolean = false;
+  messageToast: string = 'Account successfully created! Please login'
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -30,12 +33,19 @@ export class CreateAccountPage implements OnInit {
       password: ['', Validators.required],
     });
   }
-  onCreateAccount(user: UserI) {
-    console.log('Creare accoint: ', user)
-    this.showToast = true;
-    setTimeout(() => {
-      this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
-    }, 1000)
+
+  async onCreateAccount(user: UserI) {
+    try {
+      await this.authService.signUp(user);
+      this.showToast = true;
+      this.messageToast = 'Account successfully created! Please login';
+      setTimeout(() => {
+        this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
+      }, 1000)
+    } catch (error: any) {
+      this.messageToast = error.message
+      this.showToast = true;
+    }
   }
 
   onBackToLogin(): void {
