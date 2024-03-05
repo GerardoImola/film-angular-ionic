@@ -114,6 +114,7 @@ export class MovieDetailPage implements OnInit, OnDestroy {
   onCancelEdit() {
     this.overviewMovie = this.originalOverviewMovie;
     this.titleMovie = this.originalTitleMovie
-  }
+    this.editMovie = !this.editMovie;
 
+  }
 }
