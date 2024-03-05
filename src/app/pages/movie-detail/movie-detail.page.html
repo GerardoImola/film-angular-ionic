@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button class="user-button" defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
-    <ion-buttons class="ion-padding-end" slot="end" (click)="onDeleteMovie()">
+    <ion-buttons class="ion-padding-end" slot="end" (click)="onDeleteMovie('middle')">
       <ion-icon name="trash-outline"></ion-icon>
     </ion-buttons>
 
@@ -35,7 +35,7 @@
     <ion-card class="ion-card-container">
         <ion-card-title class="ion-card-container-title">
           <ion-item>
-            <ion-input [(ngModel)]="titleMovie" [readonly]="!editMovie"  fill="{{editMovie ? 'outline' : ''}}"></ion-input>
+           <ion-input [(ngModel)]="titleMovie" [readonly]="!editMovie"  [class.outline-mode]="editMovie"></ion-input>
           </ion-item>
         </ion-card-title>
         <ion-item>
@@ -59,9 +59,15 @@
         </ion-card-header>
 
         <ion-card-content class="ion-card-container-description">
-          <ion-textarea [autoGrow]="true" [(ngModel)]="overviewMovie" [readonly]="!editMovie"  fill="{{editMovie ? 'outline' : ''}}"></ion-textarea>
+          <ion-textarea [autoGrow]="true" [(ngModel)]="overviewMovie" [readonly]="!editMovie" [class.outline-mode]="editMovie"></ion-textarea>
         </ion-card-content>
     </ion-card>
+    <div class="ion-text-center">
+  <ion-button fill="outline" *ngIf="editMovie" (click)="onCancelEdit()">Cancel</ion-button>
+  <ion-button fill="outline" *ngIf="editMovie" (click)="onConfirmChanges('middle')">Confirm</ion-button>
+</div>
+
     }
   </div>
+
 </ion-content>
