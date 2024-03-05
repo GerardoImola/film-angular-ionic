@@ -35,7 +35,7 @@
 </ion-menu>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar *ngIf="showSearchBar" (keyup)="applyFilter($event)" (ionCancel)="toggleSearch()" (ionClear)="onClearSearch()" animated="true"></ion-searchbar>
+  <ion-searchbar *ngIf="showSearchBar" (keyup)="applyFilter($event)" (ionClear)="onClearSearch()" animated="true"></ion-searchbar>
   <div *ngIf="noResultsFound">
     <img src="https://png.pngtree.com/png-vector/20190929/ourlarge/pngtree-alert-icon-isolated-on-abstract-background-png-image_1754657.jpg" alt="No movies found">
     <div class="not-movies" >

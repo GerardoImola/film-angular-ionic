@@ -10,7 +10,7 @@ import {UserI} from "../../interfaces/auth/user.interface";
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.page.html',
   standalone: true,
-  styleUrls: ['./forgot-password.page.scss'],
+  styleUrls: ['./forgot-password.page.sass'],
   imports: [IonicModule, FormsModule]
 
 })

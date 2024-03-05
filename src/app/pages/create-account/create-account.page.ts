@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-create-account',
   templateUrl: './create-account.page.html',
   standalone: true,
-  styleUrls: ['./create-account.page.scss'],
+  styleUrls: ['./create-account.page.sass'],
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, AuthUserFormComponent]
 
 })

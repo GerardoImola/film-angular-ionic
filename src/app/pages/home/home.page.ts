@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['home.page.sass'],
   standalone: true,
   imports: [ CurrencyPipe, IonicModule, CommonModule, FormsModule],
 })
@@ -72,17 +72,17 @@ export class HomePage implements OnInit {
     this.showSearchBar = !this.showSearchBar;
   }
 
-  toggleSearch() {
-    this.showSearchBar = !this.showSearchBar;
-  }
 
   onClearSearch() {
+    console.log('movies',this.movies)
+    console.log('filter',this.moviesFilter)
+    console.log('buscra')
     this.showSearchBar = false;
+    this.movies = this.moviesFilter;
   }
 
   applyFilter(event: Event) {
-    console.log('movies',this.movies)
-    console.log('filter',this.moviesFilter)
+
 
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
 

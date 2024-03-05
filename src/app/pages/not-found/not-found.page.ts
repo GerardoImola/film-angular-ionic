@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-not-found',
   templateUrl: './not-found.page.html',
-  styleUrls: ['./not-found.page.scss'],
+  styleUrls: ['./not-found.page.sass'],
   standalone: true,
   imports: [ IonicModule],
 

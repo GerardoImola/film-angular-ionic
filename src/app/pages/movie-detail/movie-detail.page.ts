@@ -14,7 +14,7 @@ import { ToastController } from '@ionic/angular';
   selector: 'app-movie-detail',
   templateUrl: './movie-detail.page.html',
   standalone: true,
-  styleUrls: ['./movie-detail.page.scss'],
+  styleUrls: ['./movie-detail.page.sass'],
   imports: [ CurrencyPipe, IonicModule, CommonModule, FormsModule],
 
 })
@@ -109,6 +109,8 @@ export class MovieDetailPage implements OnInit, OnDestroy {
 
     });
     await toast.present();
+    this.editMovie = !this.editMovie;
+
   }
 
   onCancelEdit() {
