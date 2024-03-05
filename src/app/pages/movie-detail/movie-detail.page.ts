@@ -82,7 +82,7 @@ export class MovieDetailPage implements OnInit, OnDestroy {
     this.titleMovie = this.originalTitleMovie
   }
 
-  async onDeleteMovie(position: 'middle') {
+  async onDeleteMovie(position: 'top') {
     let allMovies!: Array<MovieDbResponseResult>;
     this.moviesSubscription = this.movieService.movies$.subscribe((data) => {
       allMovies = data;
@@ -100,7 +100,7 @@ export class MovieDetailPage implements OnInit, OnDestroy {
 
   }
 
-  async onConfirmChanges(position: 'middle') {
+  async onConfirmChanges(position: 'top') {
     const toast = await this.toastController.create({
       message: 'Confirmed changes',
       duration: 2500,

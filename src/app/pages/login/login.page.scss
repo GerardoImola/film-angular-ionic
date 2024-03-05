@@ -43,6 +43,13 @@
 }
 
 .custom-toast-login {
+  --border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.custom-toast-error {
   --background: red;
   --border-radius: 10px;
   text-align: center;

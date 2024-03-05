@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button class="user-button" defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
-    <ion-buttons class="ion-padding-end" slot="end" (click)="onDeleteMovie('middle')">
+    <ion-buttons class="ion-padding-end" slot="end" (click)="onDeleteMovie('top')">
       <ion-icon name="trash-outline"></ion-icon>
     </ion-buttons>
 
@@ -64,7 +64,7 @@
     </ion-card>
     <div class="ion-text-center">
   <ion-button fill="clear" color="dark" *ngIf="editMovie" (click)="onCancelEdit()">Cancel</ion-button>
-  <ion-button fill="clear" color="dark" *ngIf="editMovie" (click)="onConfirmChanges('middle')">Confirm</ion-button>
+  <ion-button fill="clear" color="dark" *ngIf="editMovie" (click)="onConfirmChanges('top')">Confirm</ion-button>
 </div>
 
     }

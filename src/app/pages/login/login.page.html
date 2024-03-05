@@ -28,8 +28,18 @@
     [isOpen]="showToast"
     position="top"
     positionAnchor="footer"
-    message="Something are wrong!"
+    message="{{messageToast}}"
     cssClass="custom-toast-login"
     duration="2000"
+    color="success"
   ></ion-toast>
+  <ion-toast
+    [isOpen]="showToastError"
+    position="top"
+    positionAnchor="footer"
+    message="{{messageErrorToast}}"
+    cssClass="custom-toast-error"
+    duration="2000"
+  ></ion-toast>
+
 </ion-content>

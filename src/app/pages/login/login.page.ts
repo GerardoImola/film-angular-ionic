@@ -24,6 +24,9 @@ export class LoginPage implements OnInit {
   loginForm!: FormGroup
   showPassword: boolean = false;
   showToast: boolean = false;
+  messageToast: string = 'Successful login!'
+  messageErrorToast: string = 'Something are wrong!'
+  showToastError: boolean = false;
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -35,9 +38,14 @@ export class LoginPage implements OnInit {
   async onLoginForm(user: UserI) {
     try {
       await this.authService.login(user);
-      this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+      this.showToast = true;
+      this.messageToast = 'Successful login!';
+      setTimeout(() => {
+        this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+      }, 1000)
     } catch (error: any) {
-        console.log(error.message);
+      this.messageErrorToast = error.message
+      this.showToastError = true;
     }
   }
 
