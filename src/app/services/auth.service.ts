@@ -52,4 +52,13 @@ export class AuthService {
     return this.afAuth.signOut();
   }
 
+
+
+  async resetPassword(email: string): Promise<void> {
+    try {
+      await this.afAuth.sendPasswordResetEmail(email);
+    } catch (error) {
+      throw error;
+    }
+  }
 }

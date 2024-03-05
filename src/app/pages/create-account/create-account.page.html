@@ -29,7 +29,7 @@
     message="{{messageToast}}"
     duration="2000"
     cssClass="custom-toast-create"
-    color="success"
+    [color]="messageType === 'success' ? 'success' : 'danger'"
   ></ion-toast>
 
 </ion-content>

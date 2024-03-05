@@ -26,6 +26,7 @@ export class CreateAccountPage implements OnInit {
   showPassword: boolean = false;
   showToast: boolean = false;
   messageToast: string = 'Account successfully created! Please login'
+  messageType: string = 'success';
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -38,12 +39,14 @@ export class CreateAccountPage implements OnInit {
     try {
       await this.authService.signUp(user);
       this.showToast = true;
+      this.messageType = 'success';
       this.messageToast = 'Account successfully created! Please login';
       setTimeout(() => {
         this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
       }, 1000)
     } catch (error: any) {
       this.messageToast = error.message
+      this.messageType = 'error';
       this.showToast = true;
     }
   }
