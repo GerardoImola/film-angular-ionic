@@ -21,8 +21,11 @@ export class HomePage implements OnInit {
   private authService = inject(AuthService);
   stars: number[] = Array(5).fill(0);
   movies: Array<MovieDbResponseResult> = []
+  moviesFilter: Array<MovieDbResponseResult> = []
   showSearchBar: boolean = false;
   loadingMovies: boolean = true;
+  noResultsFound: boolean = false;
+
   async ngOnInit(): Promise<void> {
     await this.fetchMovies();
   }
@@ -33,6 +36,8 @@ export class HomePage implements OnInit {
       this.movies = data;
     });
     this.loadingMovies = false;
+    this.moviesFilter = this.movies
+
   }
 
   getStarIcon(index: number, ratingPercentage: number): string {
@@ -74,4 +79,22 @@ export class HomePage implements OnInit {
   onClearSearch() {
     this.showSearchBar = false;
   }
+
+  applyFilter(event: Event) {
+    console.log('movies',this.movies)
+    console.log('filter',this.moviesFilter)
+
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    if (!filterValue) {
+      this.movies = this.moviesFilter;
+      return
+    }
+    this.movies = this.moviesFilter.filter(movie =>
+      movie.original_title.toLowerCase().includes(filterValue)
+    );
+
+    this.noResultsFound = this.movies.length === 0;
+  }
+
 }

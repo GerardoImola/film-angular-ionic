@@ -27,4 +27,8 @@ export const routes: Routes = [
     path: ROUTE_EDIT_RELATIVE,
     loadComponent: () => import('./pages/movie-detail/movie-detail.page').then(m => m.MovieDetailPage)
   },
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found.page').then(m => m.NotFoundPage)
+  }
 ];
