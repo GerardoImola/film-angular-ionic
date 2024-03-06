@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MovieService} from "../../services/movie.service";
 import {MovieDbResponseResult} from "../../interfaces/movie/movie.interface";
 import {MovieDetailDbResponse} from "../../interfaces/movie/movie-detail-response.interface";
-import { Subscription } from 'rxjs';
+import { catchError, Subscription } from 'rxjs';
 import {ROUTE_HOME_ABSOLUTE} from "../../shared/routing-paths";
 import { ToastController } from '@ionic/angular';
 
@@ -53,12 +53,24 @@ export class MovieDetailPage implements OnInit, OnDestroy {
   }
 
   async fetchMovieById(id: number): Promise<void> {
-    this.movie = await this.movieService.getMovieById(id)
-    this.titleMovie = this.movie.original_title;
-    this.originalTitleMovie = this.movie.original_title;
-    this.originalOverviewMovie = this.movie.overview;
-    this.overviewMovie = this.movie.overview;
-    this.loadingData = false;
+    const uid = sessionStorage.getItem('uid');
+
+    this.movieService.getMovieById(uid!, id.toString())
+    .pipe(
+      catchError((error) => {
+        console.error('Error al obtener la película', error);
+        return [];
+      })
+    )
+    .subscribe((movie) => {
+      console.log('Película obtenida exitosamente', movie.data());
+      this.movie = movie.data();
+      this.titleMovie = this.movie.original_title;
+      this.originalTitleMovie = this.movie.original_title;
+      this.originalOverviewMovie = this.movie.overview;
+      this.overviewMovie = this.movie.overview;
+      this.loadingData = false;
+    });
   }
 
   getStarIcon(index: number, ratingPercentage: number): string {
@@ -82,35 +94,60 @@ export class MovieDetailPage implements OnInit, OnDestroy {
     this.titleMovie = this.originalTitleMovie
   }
 
-  async onDeleteMovie(position: 'top') {
-    let allMovies!: Array<MovieDbResponseResult>;
-    this.moviesSubscription = this.movieService.movies$.subscribe((data) => {
-      allMovies = data;
-    });
-    const newMovies = allMovies.filter(movie => movie.id !== this.movieId)
-    this.movieService.updateMovies([...newMovies]);
-    this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+  async onDeleteMovie() {
+    const uid = sessionStorage.getItem('uid');
 
-    const toast = await this.toastController.create({
-      message: 'Movie successfully eliminated!',
-      duration: 2500,
-      position: position,
-    });
-    await toast.present();
-
+    await this.movieService.deleteMovie(uid!, this.movieId.toString())
+    .pipe(
+      catchError(async () => {
+        const toast = await this.toastController.create({
+          message: 'Something bad has happened. Try again!',
+          duration: 2500,
+          position: 'top',
+        });
+        await toast.present();
+      })
+    )
+      .subscribe(async () => {
+          this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+          const toast = await this.toastController.create({
+            message: 'Movie successfully eliminated!',
+            duration: 2500,
+            position: 'top',
+          });
+          await toast.present();
+      });
   }
 
   async onConfirmChanges(position: 'top') {
-    const toast = await this.toastController.create({
-      message: 'Confirmed changes',
-      duration: 2500,
-      position: position,
-      color:"success"
 
-    });
-    await toast.present();
     this.editMovie = !this.editMovie;
+    const uid = sessionStorage.getItem('uid');
+    const updatedData = {
+      overview: this.overviewMovie,
+      original_title: this.titleMovie,
+    };
 
+    this.movieService.updateMovie(uid!, this.movieId.toString(), updatedData)
+    .pipe(
+      catchError(async () => {
+        const toast = await this.toastController.create({
+          message: 'Something bad has happened. Try again!',
+          duration: 2500,
+          position: 'top',
+        });
+        await toast.present();
+      })
+    )
+    .subscribe(async() => {
+      const toast = await this.toastController.create({
+        message: 'Movie updated',
+        duration: 2500,
+        position: position,
+        color:"success"
+      });
+      await toast.present();
+    });
   }
 
   onCancelEdit() {

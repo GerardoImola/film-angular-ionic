@@ -5,7 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ROUTE_EDIT_ABSOLUTE, ROUTE_LOGIN_ABSOLUTE} from "../../shared/routing-paths";
 import {MovieService} from "../../services/movie.service";
-import {MovieDbResponseResult} from "../../interfaces/movie/movie.interface";
+import {MovieDbResponseResult, MovieFirebaseResponse} from "../../interfaces/movie/movie.interface";
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -20,8 +20,8 @@ export class HomePage implements OnInit {
   private router = inject(Router)
   private authService = inject(AuthService);
   stars: number[] = Array(5).fill(0);
-  movies: Array<MovieDbResponseResult> = []
-  moviesFilter: Array<MovieDbResponseResult> = []
+  movies: Array<MovieFirebaseResponse> = []
+  moviesFilter: Array<MovieFirebaseResponse> = []
   showSearchBar: boolean = false;
   loadingMovies: boolean = true;
   noResultsFound: boolean = false;
@@ -33,8 +33,10 @@ export class HomePage implements OnInit {
   async fetchMovies(): Promise<void> {
     this.movieService.getMoviesByUserId().subscribe(movies => {
       this.movies = movies;
-    this.loadingMovies = false;
-    this.moviesFilter = this.movies
+      console.log('this.movies')
+      console.log(this.movies)
+      this.loadingMovies = false;
+      this.moviesFilter = this.movies
     });
   }
 
