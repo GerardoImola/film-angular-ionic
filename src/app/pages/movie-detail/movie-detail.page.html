@@ -39,7 +39,11 @@
           </ion-item>
         </ion-card-title>
         <ion-item>
-          <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="Silhouette of mountains" />
+          @if(movie.poster_path) {
+            <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="Silhouette of mountains" />
+          } @else {
+            <img [src]="'https://i.ibb.co/sJd0MbN/image-not-found-scaled-1150x647.png'" alt="{{ movie.original_title}}"/>
+          }
         </ion-item>
 
         <ion-card-header>

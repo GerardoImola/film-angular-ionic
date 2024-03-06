@@ -25,3 +25,10 @@ export interface MovieFirebaseResponse {
   vote_average: number;
   timestamp: Date;
 };
+
+export interface AddMovieFormI {
+  originalTitle: string;
+  overview: string;
+  voteAverage: string;
+  releaseDate: string;
+}

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MovieDbResponseResult} from "../interfaces/movie/movie.interface";
+import {AddMovieFormI, MovieDbResponseResult} from "../interfaces/movie/movie.interface";
 import {Observable, catchError} from 'rxjs';
 import {AngularFirestore, DocumentData} from "@angular/fire/compat/firestore";
 
@@ -52,7 +52,7 @@ export class MovieService {
 
     return this.firestore.collection<any>('movies')
       .doc(userId!)
-      .collection('detail')
+      .collection('detail', ref => ref.orderBy('timestamp', 'desc'))
       .valueChanges(); // Devuelve un Observable de las películas
   }
 
@@ -103,6 +103,36 @@ export class MovieService {
         })
         .catch((error) => {
           observer.error(error);
+        });
+    });
+  }
+
+  addMovie(movie: AddMovieFormI): Observable<void> {
+    return new Observable((observer) => {
+      const userId = sessionStorage.getItem('uid');
+
+      const newMovieData = {
+        id: '', // autogenerate Firebase
+        original_title: movie.originalTitle,
+        poster_path: '',
+        vote_average: movie.voteAverage,
+        overview:  movie.overview,
+        release_date: movie.releaseDate,
+        timestamp: new Date(),
+      };
+
+      this.firestore
+        .collection('movies')
+        .doc(userId!)
+        .collection('detail')
+        .add(newMovieData)
+        .then((docRef) => {
+          docRef.update({ id: docRef.id });
+          observer.next(); // Éxito
+          observer.complete();
+        })
+        .catch((error) => {
+          observer.error(error); // Error
         });
     });
   }

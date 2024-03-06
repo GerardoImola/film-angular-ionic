@@ -1,21 +1,27 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {CommonModule, CurrencyPipe} from "@angular/common";
 import {IonicModule} from "@ionic/angular";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ROUTE_EDIT_ABSOLUTE, ROUTE_LOGIN_ABSOLUTE} from "../../shared/routing-paths";
 import {MovieService} from "../../services/movie.service";
-import {MovieDbResponseResult, MovieFirebaseResponse} from "../../interfaces/movie/movie.interface";
+import {AddMovieFormI, MovieDbResponseResult, MovieFirebaseResponse} from "../../interfaces/movie/movie.interface";
 import { AuthService } from 'src/app/services/auth.service';
+import { IonModal } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { AddMovieFormComponent } from 'src/app/components/add-movie-form/add-movie-form.component';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.sass'],
   standalone: true,
-  imports: [ CurrencyPipe, IonicModule, CommonModule, FormsModule],
+  imports: [ CurrencyPipe, IonicModule, CommonModule, FormsModule, AddMovieFormComponent],
 })
 export class HomePage implements OnInit {
+  @ViewChild(IonModal) modal!: IonModal;
+
   private movieService = inject(MovieService)
   private router = inject(Router)
   private authService = inject(AuthService);
@@ -92,4 +98,22 @@ export class HomePage implements OnInit {
     this.noResultsFound = this.movies.length === 0;
   }
 
+  onCancelMovie() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  onConfirmAddMovie(formData: AddMovieFormI) {
+    console.log(formData)
+    // this.modal.dismiss('this.name', 'confirm');
+    this.movieService.addMovie(formData).subscribe(
+      () => {
+        console.log('Película agregada exitosamente');
+        this.modal.dismiss(null, 'cancel');
+      },
+      (error) => {
+        console.error('Error al agregar la película', error);
+      }
+    );
+
+  }
 }

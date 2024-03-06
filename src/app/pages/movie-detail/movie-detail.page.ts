@@ -44,7 +44,7 @@ export class MovieDetailPage implements OnInit, OnDestroy {
   private moviesSubscription!: Subscription;
   private router = inject(Router)
 
-  movieId!: number;
+  movieId!: string | number;
   movie!: MovieDetailDbResponse;
   loadingData: boolean = true;
   editMovie: boolean = false;
@@ -58,7 +58,7 @@ export class MovieDetailPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      this.movieId = Number(params.get('id'));
+      this.movieId = params.get('id') || Number(params.get('id'))
       this.fetchMovieById(this.movieId)
     });
   }
@@ -69,7 +69,7 @@ export class MovieDetailPage implements OnInit, OnDestroy {
     }
   }
 
-  async fetchMovieById(id: number): Promise<void> {
+  async fetchMovieById(id: string | number): Promise<void> {
     const uid = sessionStorage.getItem('uid');
 
     this.movieService.getMovieById(uid!, id.toString())
