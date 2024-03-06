@@ -7,6 +7,7 @@ import {ROUTE_HOME_ABSOLUTE, ROUTE_LOGIN_ABSOLUTE} from "../../shared/routing-pa
 import {UserI} from "../../interfaces/auth/user.interface";
 import {AuthUserFormComponent} from "../../components/auth-user-form/auth-user-form.component";
 import { AuthService } from 'src/app/services/auth.service';
+import {MovieService} from "../../services/movie.service";
 
 @Component({
   selector: 'app-create-account',
@@ -23,10 +24,13 @@ export class CreateAccountPage implements OnInit {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router)
   private authService = inject(AuthService)
+  private movieService = inject(MovieService)
+
   showPassword: boolean = false;
   showToast: boolean = false;
   messageToast: string = 'Account successfully created! Please login'
   messageType: string = 'success';
+  isLoading: boolean = false
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -37,10 +41,12 @@ export class CreateAccountPage implements OnInit {
 
   async onCreateAccount(user: UserI) {
     try {
+      this.isLoading = true;
       await this.authService.signUp(user);
       this.showToast = true;
       this.messageType = 'success';
       this.messageToast = 'Account successfully created! Please login';
+      await this.movieService.getMovieList()
       setTimeout(() => {
         this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
       }, 1000)
@@ -48,7 +54,10 @@ export class CreateAccountPage implements OnInit {
       this.messageToast = error.message
       this.messageType = 'error';
       this.showToast = true;
+    } finally {
+      this.isLoading = false;
     }
+
   }
 
   onBackToLogin(): void {

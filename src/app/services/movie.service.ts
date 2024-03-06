@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {MovieDbResponseResult} from "../interfaces/movie/movie.interface";
 import {MovieDetailDbResponse} from "../interfaces/movie/movie-detail-response.interface";
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
+  constructor( private firestore: AngularFirestore) {}
+
   private dataSubject = new BehaviorSubject<Array<MovieDbResponseResult>>([]);
   movies$ = this.dataSubject.asObservable();
   urlBase = 'https://api.themoviedb.org/3/movie/';
@@ -27,13 +31,41 @@ export class MovieService {
       const response = await fetch(`${this.urlBase}popular?language=en-US&page=1`, this.options);
       const json = await response.json();
       this.updateMovies(json.results)
+      const userId = sessionStorage.getItem('uid');
+      if (userId) {
+        const batch = this.firestore.firestore.batch();
+        // save movies in DB
+        await json.results.forEach( async (movie: MovieDbResponseResult) => {
+          await this.firestore.collection('movies').doc(userId).collection('detail').doc(movie.id.toString())
+            .set({
+              original_title: movie.original_title,
+              poster_path: movie.poster_path,
+              vote_average: movie.vote_average,
+              overview: movie.overview,
+              release_date: movie.release_date,
+              timestamp: new Date(),
+            });
+        });
+
+        await batch.commit();
+      }
       return json.results;
     } catch (e) {
       throw new Error('Error fetching movies: ' + e);
     }
   }
 
-  async getMovieById(id: number): Promise<MovieDetailDbResponse> {
+  getMoviesByUserId(): Observable<any []> {
+    const userId = sessionStorage.getItem('uid');
+
+    return this.firestore.collection<any>('movies')
+      .doc(userId!)
+      .collection('detail')
+      .valueChanges(); // Devuelve un Observable de las películas
+  }
+
+
+    async getMovieById(id: number): Promise<MovieDetailDbResponse> {
     let creditsUrl = 'language=en-US&append_to_response=credits'
     const url = `${this.urlBase}${id}?${creditsUrl}`;
 

@@ -29,7 +29,7 @@ export class AuthService {
       });
 
       // save to db
-      return this.firestore.collection('user').doc(userId).set(user);
+      return this.firestore.collection('users').doc(userId).set(user);
     } catch (error: any) {
 
       throw error;
@@ -60,5 +60,9 @@ export class AuthService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async checkIfEmailExists(email: string) {
+
   }
 }

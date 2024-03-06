@@ -31,13 +31,11 @@ export class HomePage implements OnInit {
   }
 
   async fetchMovies(): Promise<void> {
-    await this.movieService.getMovieList()
-    this.movieService.movies$.subscribe((data) => {
-      this.movies = data;
-    });
+    this.movieService.getMoviesByUserId().subscribe(movies => {
+      this.movies = movies;
     this.loadingMovies = false;
     this.moviesFilter = this.movies
-
+    });
   }
 
   getStarIcon(index: number, ratingPercentage: number): string {
@@ -56,7 +54,7 @@ export class HomePage implements OnInit {
   }
 
   editMovie(id: number) {
-    this.router.navigate([ ROUTE_EDIT_ABSOLUTE, id]);
+    this.router.navigate([`${ROUTE_EDIT_ABSOLUTE}/${id}`]);
   }
 
   onLogout(): void {
@@ -74,15 +72,11 @@ export class HomePage implements OnInit {
 
 
   onClearSearch() {
-    console.log('movies',this.movies)
-    console.log('filter',this.moviesFilter)
-    console.log('buscra')
     this.showSearchBar = false;
     this.movies = this.moviesFilter;
   }
 
   applyFilter(event: Event) {
-
 
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
 

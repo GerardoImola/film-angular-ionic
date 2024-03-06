@@ -19,6 +19,7 @@
     </div>
     <ion-card-content>
       <app-auth-user-form [buttonText]="'Create account'" (submitAuth)="onCreateAccount($event)" />
+      <ion-spinner *ngIf="isLoading"></ion-spinner>
     </ion-card-content>
   </ion-card>
 
