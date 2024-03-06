@@ -5,11 +5,11 @@ Welcome to the frontend repository of our ionic web application!
 ## Project Overview
 
 Create a new project using the Ionic Framework and Angular.
-The project should include two pages that use UI components from https://ionicframework.com/docs/components
 The first page should display a login form with options for logging in using a username and a password. Clicking the login button should redirect the user to the second page.
-The second page should display a list of items retrieved from a Firebase Cloud Firestore database. The component should allow the user to filter the items by category and/or price range.
+The second page should display a list of items retrieved from a Firebase Cloud Firestore database. The component should allow the user to filter the items and access their details.
 Use Ionic components to implement the interface.
 The website should be responsive, meaning that the pages should look good on both mobile and desktop resolutions.
+
 ## Getting Started
 
 To set up and run the frontend locally, follow these steps:
@@ -18,6 +18,9 @@ To set up and run the frontend locally, follow these steps:
 2. Install project dependencies using npm install or yarn install.
 3. Run the development server using npm run start or yarn dev.
 5. Access the application in your web browser at http://localhost:4200.
+6. Register a new account or log in with the following credentials: 
+    username: test@test.com
+    password: 123456
 
 ## Development server
 
@@ -45,6 +48,7 @@ Our frontend is powered by cutting-edge technologies and libraries, including:
 - Ionic: Empowering seamless cross-platform development, Ionic brings a comprehensive suite of UI components and tools for building robust, high-performance applications.
 - Material UI: Providing beautiful and customizable UI components.
 - Typescript: Allowing you to write more maintainable and scalable code by catching errors at compile time.
+- ⁠Firebase: Ensuring secure user authentication and data storage.
 
 
 ## Version Information
