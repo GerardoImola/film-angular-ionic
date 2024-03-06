@@ -42,11 +42,11 @@ export class CreateAccountPage implements OnInit {
   async onCreateAccount(user: UserI) {
     try {
       this.isLoading = true;
-      await this.authService.signUp(user);
+      const authUID = await this.authService.signUp(user);
       this.showToast = true;
       this.messageType = 'success';
       this.messageToast = 'Account successfully created! Please login';
-      await this.movieService.getMovieList()
+      await this.movieService.getMovieList(authUID)
       setTimeout(() => {
         this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
       }, 1000)

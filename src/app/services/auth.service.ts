@@ -17,7 +17,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 export class AuthService {
   constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) {}
 
-  async signUp(user: UserI): Promise<void> {
+  async signUp(user: UserI): Promise<string> {
     try {
       const result = await this.afAuth.createUserWithEmailAndPassword(user.username, user.password);
       const userId = result!.user!.uid;
@@ -29,7 +29,8 @@ export class AuthService {
       });
 
       // save to db
-      return this.firestore.collection('users').doc(userId).set(user);
+      this.firestore.collection('users').doc(userId).set(user);
+      return userId;
     } catch (error: any) {
 
       throw error;

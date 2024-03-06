@@ -26,18 +26,19 @@ export class MovieService {
     this.dataSubject.next(data);
   }
 
-  async getMovieList(): Promise<Array<MovieDbResponseResult>>{
+  async getMovieList(uid: string): Promise<Array<MovieDbResponseResult>>{
     try {
       const response = await fetch(`${this.urlBase}popular?language=en-US&page=1`, this.options);
       const json = await response.json();
       this.updateMovies(json.results)
-      const userId = sessionStorage.getItem('uid');
-      if (userId) {
+
+      if (uid) {
         const batch = this.firestore.firestore.batch();
         // save movies in DB
         await json.results.forEach( async (movie: MovieDbResponseResult) => {
-          await this.firestore.collection('movies').doc(userId).collection('detail').doc(movie.id.toString())
+          await this.firestore.collection('movies').doc(uid).collection('detail').doc(movie.id.toString())
             .set({
+              id: movie.id,
               original_title: movie.original_title,
               poster_path: movie.poster_path,
               vote_average: movie.vote_average,
