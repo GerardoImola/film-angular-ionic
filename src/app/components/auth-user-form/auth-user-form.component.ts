@@ -37,6 +37,8 @@ export class AuthUserFormComponent implements OnInit {
 
     setTimeout(() => {
       this.isLoading = false;
+      this.loginForm.reset();
+
     }, 3000);
 
     console.log('on submit');
