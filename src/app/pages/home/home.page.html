@@ -6,7 +6,7 @@
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-menu-button class="icon-content"></ion-menu-button>
+            <ion-menu-button class="icon-content menu" ></ion-menu-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -16,7 +16,7 @@
         <ion-icon class="icon-content" slot="icon-only" name="search-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title class="ion-text-center">
       Movies
     </ion-title>
   </ion-toolbar>
@@ -37,7 +37,7 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-menu-toggle>
-        <ion-button (click)="onLogout()" color="light">Logout</ion-button>
+        <ion-button (click)="onLogout()" color="light"  expand="full">Logout</ion-button>
       </ion-menu-toggle>
     </ion-content>
   </ion-menu>
