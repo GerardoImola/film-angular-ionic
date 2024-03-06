@@ -33,8 +33,6 @@ export class HomePage implements OnInit {
   async fetchMovies(): Promise<void> {
     this.movieService.getMoviesByUserId().subscribe(movies => {
       this.movies = movies;
-      console.log('this.movies')
-      console.log(this.movies)
       this.loadingMovies = false;
       this.moviesFilter = this.movies
     });
@@ -76,6 +74,7 @@ export class HomePage implements OnInit {
   onClearSearch() {
     this.showSearchBar = false;
     this.movies = this.moviesFilter;
+    this.noResultsFound = this.movies.length === 0;
   }
 
   applyFilter(event: Event) {

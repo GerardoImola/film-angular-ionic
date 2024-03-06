@@ -21,27 +21,26 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <ion-menu-toggle>
-      <ion-button (click)="onLogout()" color="light">Logout</ion-button>
-    </ion-menu-toggle>
-  </ion-content>
-</ion-menu>
-
 <ion-content [fullscreen]="true">
   <ion-searchbar *ngIf="showSearchBar" (keyup)="applyFilter($event)" (ionClear)="onClearSearch()" animated="true"></ion-searchbar>
-  <div *ngIf="noResultsFound">
-    <img src="https://png.pngtree.com/png-vector/20190929/ourlarge/pngtree-alert-icon-isolated-on-abstract-background-png-image_1754657.jpg" alt="No movies found">
+    <div *ngIf="noResultsFound">
+    <ion-icon class="icon-movies" name="alert-circle-outline"></ion-icon>
     <div class="not-movies" >
       <p>No movies found</p>
     </div>
   </div>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-menu-toggle>
+        <ion-button (click)="onLogout()" color="light">Logout</ion-button>
+      </ion-menu-toggle>
+    </ion-content>
+  </ion-menu>
   <div class="home-container">
     @if(loadingMovies) {
     <ion-card *ngFor="let _ of [0, 1, 2, 3]">

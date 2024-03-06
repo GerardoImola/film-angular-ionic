@@ -8,7 +8,7 @@ import {MovieDbResponseResult} from "../../interfaces/movie/movie.interface";
 import {MovieDetailDbResponse} from "../../interfaces/movie/movie-detail-response.interface";
 import { catchError, Subscription } from 'rxjs';
 import {ROUTE_HOME_ABSOLUTE} from "../../shared/routing-paths";
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-movie-detail',
@@ -19,8 +19,25 @@ import { ToastController } from '@ionic/angular';
 
 })
 export class MovieDetailPage implements OnInit, OnDestroy {
-  constructor(private toastController: ToastController) {
+  constructor(private toastController: ToastController, private alertController: AlertController) {
   }
+
+  alertButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      cssClass: 'secondary',
+      handler: () => {
+        console.log('Cancel clicked');
+      }
+    },
+    {
+      text: 'Delete',
+      handler: () => {
+        this.deleteMovie();
+      }
+    }
+  ];
 
   private route = inject(ActivatedRoute)
   private movieService = inject(MovieService)
@@ -95,27 +112,36 @@ export class MovieDetailPage implements OnInit, OnDestroy {
   }
 
   async onDeleteMovie() {
+    const alert = await this.alertController.create({
+      header: 'Confirm delete!',
+      buttons: this.alertButtons,
+    });
+
+    await alert.present();
+  }
+
+  async deleteMovie() {
     const uid = sessionStorage.getItem('uid');
 
     await this.movieService.deleteMovie(uid!, this.movieId.toString())
-    .pipe(
-      catchError(async () => {
-        const toast = await this.toastController.create({
-          message: 'Something bad has happened. Try again!',
-          duration: 2500,
-          position: 'top',
-        });
-        await toast.present();
-      })
-    )
-      .subscribe(async () => {
-          this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+      .pipe(
+        catchError(async () => {
           const toast = await this.toastController.create({
-            message: 'Movie successfully eliminated!',
+            message: 'Something bad has happened. Try again!',
             duration: 2500,
             position: 'top',
           });
           await toast.present();
+        })
+      )
+      .subscribe(async () => {
+        this.router.navigate([ROUTE_HOME_ABSOLUTE]);
+        const toast = await this.toastController.create({
+          message: 'Movie successfully eliminated!',
+          duration: 2500,
+          position: 'top',
+        });
+        await toast.present();
       });
   }
 
@@ -156,4 +182,6 @@ export class MovieDetailPage implements OnInit, OnDestroy {
     this.editMovie = !this.editMovie;
 
   }
+
+
 }

@@ -30,7 +30,6 @@ export class CreateAccountPage implements OnInit {
   showToast: boolean = false;
   messageToast: string = 'Account successfully created! Please login'
   messageType: string = 'success';
-  isLoading: boolean = false
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -41,7 +40,6 @@ export class CreateAccountPage implements OnInit {
 
   async onCreateAccount(user: UserI) {
     try {
-      this.isLoading = true;
       const authUID = await this.authService.signUp(user);
       this.showToast = true;
       this.messageType = 'success';
@@ -55,7 +53,6 @@ export class CreateAccountPage implements OnInit {
       this.messageType = 'error';
       this.showToast = true;
     } finally {
-      this.isLoading = false;
     }
 
   }

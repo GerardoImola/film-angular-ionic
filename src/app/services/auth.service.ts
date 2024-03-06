@@ -40,7 +40,6 @@ export class AuthService {
   async login(user: UserI): Promise<void> {
     try {
       const result = await this.afAuth.signInWithEmailAndPassword(user.username, user.password);
-      console.log('result', result)
       sessionStorage.setItem('uid', result.user!.uid);
     } catch (error: any) {
       throw error;
@@ -54,7 +53,6 @@ export class AuthService {
   }
 
 
-
   async resetPassword(email: string): Promise<void> {
     try {
       await this.afAuth.sendPasswordResetEmail(email);
@@ -63,7 +61,4 @@ export class AuthService {
     }
   }
 
-  async checkIfEmailExists(email: string) {
-
-  }
 }
