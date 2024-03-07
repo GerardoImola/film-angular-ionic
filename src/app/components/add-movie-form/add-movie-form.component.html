@@ -1,0 +1,25 @@
+ <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" class="movie-form-container" >
+
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input formControlName="originalTitle" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea [autoGrow]="true" formControlName="overview"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Rate (1-10)</ion-label>
+      <ion-input formControlName="voteAverage" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating"></ion-label>
+      <ion-input formControlName="releaseDate" type="date"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" color="light" [disabled]="!movieForm.valid">Add movie</ion-button>
+
+  </form>

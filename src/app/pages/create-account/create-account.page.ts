@@ -6,12 +6,14 @@ import {Router} from "@angular/router";
 import {ROUTE_HOME_ABSOLUTE, ROUTE_LOGIN_ABSOLUTE} from "../../shared/routing-paths";
 import {UserI} from "../../interfaces/auth/user.interface";
 import {AuthUserFormComponent} from "../../components/auth-user-form/auth-user-form.component";
+import { AuthService } from 'src/app/services/auth.service';
+import {MovieService} from "../../services/movie.service";
 
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.page.html',
   standalone: true,
-  styleUrls: ['./create-account.page.scss'],
+  styleUrls: ['./create-account.page.sass'],
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, AuthUserFormComponent]
 
 })
@@ -21,8 +23,13 @@ export class CreateAccountPage implements OnInit {
   loginForm!: FormGroup
   private formBuilder = inject(FormBuilder);
   private router = inject(Router)
+  private authService = inject(AuthService)
+  private movieService = inject(MovieService)
+
   showPassword: boolean = false;
   showToast: boolean = false;
+  messageToast: string = 'Account successfully created! Please login'
+  messageType: string = 'success';
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -30,12 +37,24 @@ export class CreateAccountPage implements OnInit {
       password: ['', Validators.required],
     });
   }
-  onCreateAccount(user: UserI) {
-    console.log('Creare accoint: ', user)
-    this.showToast = true;
-    setTimeout(() => {
-      this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
-    }, 1000)
+
+  async onCreateAccount(user: UserI) {
+    try {
+      const authUID = await this.authService.signUp(user);
+      await this.movieService.getMovieList(authUID)
+      this.showToast = true;
+      this.messageType = 'success';
+      this.messageToast = 'Account successfully created! Please login';
+      setTimeout(() => {
+        this.router.navigate([ROUTE_LOGIN_ABSOLUTE]);
+      }, 1000)
+    } catch (error: any) {
+      this.messageToast = error.message
+      this.messageType = 'error';
+      this.showToast = true;
+    } finally {
+    }
+
   }
 
   onBackToLogin(): void {

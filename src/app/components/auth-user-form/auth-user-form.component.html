@@ -10,7 +10,9 @@
   </ion-item>
 
 
-  <ion-button class="auth-form-container-button" color="medium" type="submit" expand="block" shape="round" [disabled]="loginForm.invalid">
-    <span class="user-button">{{buttonText}}</span>
+  <ion-button class="auth-form-container-button" color="medium" type="submit" expand="block" shape="round" [disabled]="loginForm.invalid || isLoading" (click)="onClickSubmitForm()">
+    <span *ngIf="!isLoading" class="user-button">{{buttonText}}</span>
+    <ion-spinner *ngIf="isLoading"></ion-spinner>
   </ion-button>
+
 </form>

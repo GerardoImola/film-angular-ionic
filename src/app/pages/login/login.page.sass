@@ -1,0 +1,54 @@
+.card-container
+  //display: flex
+  justify-content: center
+
+  &-item
+    margin: 20px 0
+    border-radius: 20px
+    outline: auto
+    text-align: start
+    margin-left: 5px
+
+    .input-fill-outline.sc-ion-input-md-h
+      --border-color: none
+
+  form
+    width: 30%
+
+.ion-card-container
+  background-color: black
+
+  &-avatar-container
+    display: flex
+    justify-content: center
+
+    &-user-avatar
+      width: 100px
+      height: 100px
+
+.user-button
+  color: white
+
+  &-forgot
+    color: white
+
+.custom-toast-login
+  --border-radius: 10px
+  text-align: center
+
+
+.custom-toast-error
+  --background: red
+  --border-radius: 10px
+  text-align: center
+
+
+@media only screen and (max-width: 600px)
+  .card-container
+    form
+      width: 100%
+
+@media only screen and (max-width: 450px)
+  .user-button
+    &-forgot
+      margin-top: 10vh

@@ -19,6 +19,7 @@ export class AuthUserFormComponent implements OnInit {
   password = '';
   loginForm!: FormGroup
   showPassword: boolean = false;
+  isLoading: boolean = false
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -30,10 +31,18 @@ export class AuthUserFormComponent implements OnInit {
     const user: UserI = {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password
-    }
+    };
     this.submitAuth.emit(user);
-    console.log('on submit')
-    console.log(this.loginForm)
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.isLoading = false;
+      this.loginForm.reset();
+
+    }, 3000);
+
+    console.log('on submit');
+    console.log(this.loginForm);
   }
 
   emitirEvento() {

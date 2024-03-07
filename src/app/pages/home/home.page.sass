@@ -1,0 +1,86 @@
+.home-container
+  padding: 10px
+  display: flex
+  gap: 20px
+  flex-direction: column
+
+  .card-container
+    margin: 0
+
+    &-content
+      padding: 0
+      background-color: grey
+      border-radius: 20px
+
+      &-columns
+        padding: 0
+        height: 160px
+
+        img
+          border-top-left-radius: 20px
+          border-bottom-left-radius: 20px
+          height: 176px
+          width: 100%
+
+        h1
+          font-size: 20px
+          text-align: center
+          color: black
+          font-weight: 500
+          display: -webkit-box
+          -webkit-box-orient: vertical
+          overflow: hidden
+          -webkit-line-clamp: 1
+
+        &-description
+          font-size: 14px
+          text-align: center
+          color: black
+          font-weight: 500
+          display: -webkit-box
+          -webkit-box-orient: vertical
+          overflow: hidden
+          -webkit-line-clamp: 3
+
+        &-rate
+          font-size: 14px
+          color: black
+          font-weight: 500
+
+.star-icon
+  color: #f8d32d
+  font-size: 24px
+
+.icon-content
+  color: white
+  cursor: pointer
+
+.menu
+  width: 60px
+
+.button-edit
+  background-color: #2fdf6d
+
+.not-movies
+  text-align: center
+
+.icon-movies
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 64vh
+  width: 100%
+
+.add-movie-form
+  width: 100%
+
+@media only screen and (max-width: 600px)
+  .home-container
+    .filter-container
+      display: block
+
+      &-item
+        width: 100%
+
+      &-actions
+        display: block

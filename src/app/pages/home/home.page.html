@@ -2,47 +2,52 @@
   <ion-toolbar>
 
 
-  <div class="ion-page" id="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button class="icon-content"></ion-menu-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-  </div>
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button class="icon-content menu" ></ion-menu-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+    </div>
     <ion-buttons slot="end">
       <ion-button (click)="openSearch()">
         <ion-icon class="icon-content" slot="icon-only" name="search-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title class="ion-text-center">
       Movies
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-menu contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <ion-menu-toggle>
-      <ion-button (click)="onBackToLogin()" color="light">Logout</ion-button>
-    </ion-menu-toggle>
-  </ion-content>
-</ion-menu>
-
 <ion-content [fullscreen]="true">
-  <ion-searchbar *ngIf="showSearchBar" (ionCancel)="toggleSearch()" (ionClear)="onClearSearch()" animated="true"></ion-searchbar>
+  <ion-searchbar *ngIf="showSearchBar" (keyup)="applyFilter($event)" (ionClear)="onClearSearch()" animated="true"></ion-searchbar>
+    <div *ngIf="noResultsFound">
+    <ion-icon class="icon-movies" name="alert-circle-outline"></ion-icon>
+    <div class="not-movies" >
+      <p>No movies found</p>
+    </div>
+  </div>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-menu-toggle>
+        <ion-button (click)="onLogout()" color="light"  expand="full">Logout</ion-button>
+      </ion-menu-toggle>
+    </ion-content>
+  </ion-menu>
   <div class="home-container">
     @if(loadingMovies) {
     <ion-card *ngFor="let _ of [0, 1, 2, 3]">
       <ion-card-content class="card-container-content">
         <ion-row class="ion-justify-content-between">
           <ion-col size="6" class="card-container-content-columns ion-padding">
-            <ion-skeleton-text [animated]="true" style="margin: 20px; width: 150px; height: 140px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="margin: 20px; width: 140px; height: 140px"></ion-skeleton-text>
           </ion-col>
           <ion-col size="6" class="card-container-content-columns ion-margin-top">
             <ion-label>
@@ -58,43 +63,68 @@
       </ion-card-content>
     </ion-card>} @else {
     <ion-card class="card-container" *ngFor="let movie of movies">
-      <ion-list>
+      <ion-list *ngIf="!noResultsFound">
+
         <ion-item-sliding>
           <ion-item>
               <ion-card-content class="card-container-content">
                 <ion-row class="ion-justify-content-between">
                   <ion-col size="6" class="card-container-content-columns">
-                    <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.original_title}}" />
+                    @if(movie.poster_path) {
+                      <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.original_title}}" />
+                    } @else {
+                      <img [src]="'https://i.ibb.co/sJd0MbN/image-not-found-scaled-1150x647.png'" alt="{{ movie.original_title}}"/>
+                    }
                   </ion-col>
                   <ion-col size="6" class="card-container-content-columns ion-margin-top">
                     <h1>{{ movie.original_title
-                      }}</h1>
+    }}</h1>
 
                     <ion-label>
                       <div class="card-container-content-columns-description ion-padding-horizontal" >
-                      {{ movie.overview }}
-                      </div>
-                    </ion-label>
+    {{ movie.overview }}
+    </div>
+  </ion-label>
 
-                    <ion-label class="ion-padding-start ion-padding-top card-container-content-columns-rate">Rate</ion-label>
-                    <div class="ion-padding-start">
-                      <ion-icon [name]="getStarIcon(index,movie.vote_average)" class="star-icon" *ngFor="let index of starIndexes"></ion-icon>
-                    </div>
-                  </ion-col>
-                </ion-row>
-              </ion-card-content>
-          </ion-item>
-          <ion-item-options side="end" class="button-edit">
-            <ion-button color="success" (click)="editMovie(movie.id)">Edit</ion-button>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-    </ion-card>}
+  <ion-label class="ion-padding-start ion-padding-top card-container-content-columns-rate">Rate</ion-label>
+  <div class="ion-padding-start">
+    <ion-icon [name]="getStarIcon(index,movie.vote_average)" class="star-icon" *ngFor="let index of starIndexes"></ion-icon>
+  </div>
+</ion-col>
+</ion-row>
+</ion-card-content>
+</ion-item>
+<ion-item-options side="end" class="button-edit">
+<ion-button color="success" (click)="editMovie(movie.id)">Edit</ion-button>
+</ion-item-options>
+</ion-item-sliding>
+
+</ion-list>
+
+</ion-card>}
 
   </div>
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
     <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="add"  id="open-modal" ></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-modal trigger="open-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="dark" (click)="onCancelMovie()" >Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Add movie</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <app-add-movie-form (addMovieEvent)="onConfirmAddMovie($event)" class="add-movie-form"></app-add-movie-form>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -16,3 +16,19 @@ export interface MovieDbResponseResult {
 };
 
 
+export interface MovieFirebaseResponse {
+  id: number;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  timestamp: Date;
+};
+
+export interface AddMovieFormI {
+  originalTitle: string;
+  overview: string;
+  voteAverage: string;
+  releaseDate: string;
+}

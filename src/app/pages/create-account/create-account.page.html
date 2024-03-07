@@ -26,9 +26,10 @@
     [isOpen]="showToast"
     position="top"
     positionAnchor="footer"
-    message="Account successfully created! Please login"
-    cssClass="custom-toast-login"
+    message="{{messageToast}}"
     duration="2000"
+    cssClass="custom-toast-create"
+    [color]="messageType === 'success' ? 'success' : 'danger'"
   ></ion-toast>
 
 </ion-content>
